@@ -57,6 +57,11 @@ bool GeometryUtils::Hit(const Polygon &a, const Polygon &b) {
     return false;
 }
 
+float GeometryUtils::Length(const JsonObjectList<Point> &route)
+    // TODO
+    return 0;
+}
+
 bool Comment::FromJson(const Json::Value &v) {
     return ConvertFromJson(v["text"], &text) && ConvertFromJson(v["region"], &region);
 }

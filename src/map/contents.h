@@ -53,6 +53,9 @@ class GeometryUtils {
 
     // Whether polygon a hits polygon b.
     static bool Hit(const Polygon &a, const Polygon &b);
+
+    // Return the length of a route
+    static float Length(const JsonObjectList<Point> &route);
 };
 
 // Identify a text label in the map in a polygon.

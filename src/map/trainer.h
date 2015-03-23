@@ -3,55 +3,24 @@
 
 #include "contents.h"
 
+// Define how to edit a floor.
 class Trainer {
   public:
-    Trainer(Floor *floor) : floor_(floor) {
-    }
+    Trainer(Floor *floor);
 
-    void AddObject(const Polygon &object) {
-        floor_->objects.push_back(object);
-    }
+    // Add elements to the floor.
+    void AddObject(const Polygon &object);
+    void AddLabel(const Label &label);
+    void AddComment(const Comment &comment);
 
-    void RemoveObjectsIn(const Polygon &p) {
-        std::vector<Polygon> ret;
-        for (auto &k : floor_->objects) {
-            if (!GeometryUtils::Hit(p, k)) {
-                ret.push_back(k);
-            }
-        }
-        floor_->objects = ret;
-    }
+    // Remove elements that hit or inside a given polygon.
+    void RemoveObjectsIn(const Polygon &p);
+    void RemoveCommentsIn(const Polygon &p);
+    void RemoveLabelsIn(const Polygon &p);
 
-    void AddComment(const Comment &comment) {
-        floor_->comments.push_back(comment);
-    }
-
-    void RemoveCommentsIn(const Polygon &p) {
-        std::vector<Comment> ret;
-        for (auto &k : floor_->comments) {
-            if (!GeometryUtils::Hit(p, k)) {
-                ret.push_back(k);
-            }
-        }
-        floor_->comments = ret;
-    }
-
-    void AddLabel(const Label &label) {
-        floor_->labels.push_back(label);
-    }
-
-    void RemoveLabelsIn(const Polygon &p) {
-        std::vector<Label> ret;
-        for (auto &k : floor_->labels) {
-            if (!GeometryUtils::Hit(p, k)) {
-                ret.push_back(k);
-            }
-        }
-        floor_->labels = ret;
-    }
-
-    void BatchAddLabel(const PointList &route, std::vector<JsonObject *ob,
-                       float start_time, float end_time)
+    // Add a series of label by a route. Assume the speed is consistent.
+    void BatchAddLabel(const PointList &route, const JsonObjectList<Observe> &ob,
+                       int begin_time, int end_time);
 
   private:
     Floor *floor_;
