@@ -1,0 +1,24 @@
+# By Pufan HE
+
+bin/
+lib/
+tmp/
+temp/
+release/
+debug/
+Release/
+Debug/
+build/
+Makefile
+Makefile.*
+*.user
+*.swp
+*~
+*.dll
+*.so
+*.lib
+*.a
+*.exe
+*.exp
+*.bak
+*.bak/
