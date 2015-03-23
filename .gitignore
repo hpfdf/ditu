@@ -18,6 +18,8 @@ Makefile.*
 *.so
 *.lib
 *.a
+*.o
+*.obj
 *.exe
 *.exp
 *.bak
