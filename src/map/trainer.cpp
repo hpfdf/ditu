@@ -4,50 +4,46 @@ Trainer::Trainer(Floor *floor) : floor_(floor) {
 }
 
 
-void Trainer::AddObject(const Polygon &object); {
-    floor_->objects.push_back(object);
+void Trainer::AddObject(const Polygon &object) {
+    floor_->objects.append(object);
 }
 
 void Trainer::RemoveObjectsIn(const Polygon &p) {
-    std::vector<Polygon> ret;
+    JsonObjectList<Polygon> ret;
     for (auto &k : floor_->objects) {
         if (!GeometryUtils::Hit(p, k)) {
-            ret.push_back(k);
+            ret.append(k);
         }
     }
     floor_->objects = ret;
 }
 
 void Trainer::AddComment(const Comment &comment) {
-    floor_->comments.push_back(comment);
+    floor_->comments.append(comment);
 }
 
 void Trainer::RemoveCommentsIn(const Polygon &p) {
-    std::vector<Comment> ret;
+    JsonObjectList<Comment> ret;
     for (auto &k : floor_->comments) {
-        if (!GeometryUtils::Hit(p, k)) {
-            ret.push_back(k);
+        if (!GeometryUtils::Hit(p, k.region)) {
+            ret.append(k);
         }
     }
     floor_->comments = ret;
 }
 
 void Trainer::AddLabel(const Label &label) {
-    floor_->labels.push_back(label);
+    floor_->labels.append(label);
 }
 
 void Trainer::RemoveLabelsIn(const Polygon &p) {
-    std::vector<Label> ret;
+    JsonObjectList<Label> ret;
     for (auto &k : floor_->labels) {
-        if (!GeometryUtils::Hit(p, k)) {
-            ret.push_back(k);
+        if (!GeometryUtils::Inside(k.pos, p)) {
+            ret.append(k);
         }
     }
     floor_->labels = ret;
 }
 
-void Trainer::BatchAddLabel(
-        const PointList &route, JsonObject *ob,
-        int begin_time, int end_time) {
-}
 

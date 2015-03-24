@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <cstdio>
 
 #include "libJson/json.h"
 
@@ -28,11 +29,11 @@ class JsonObject {
 
     // Convert a JsonObject or a Basic type variable to Json value.
     template <typename T>
-    friend Json::Value ConvertToJson(T t);
+    friend inline Json::Value ConvertToJson(T t);
 
     // Parse a Json value into correct type and return true when success.
     template <typename T>
-    friend bool ConvertFromJson(const Json::Value &v, T *t);
+    friend inline bool ConvertFromJson(const Json::Value &v, T *t);
 
   protected:
     // Construct from a Json value
@@ -40,6 +41,43 @@ class JsonObject {
 
     // Store in a Json value
     virtual Json::Value ToJson() const;
+
+// =============================
+// for simplification JSON_MEMBERS macro, never use.
+    void __f() {}
+    template<typename T, typename... S>
+    void __f(T& __t, S&... __s) {
+        __ret &= ConvertFromJson(__v[__members[__i++]], &__t);
+        __f(__s...);
+    }
+    void __g() const {}
+    template<typename T, typename... S>
+    void __g(T& __t, S&... __s) const {
+        __v[__members[__i++]] = ConvertToJson(__t);
+        __g(__s...);
+    }
+#define JSON_MEMBERS(args...) \
+    virtual bool FromJson(const Json::Value &__vv) { \
+        __v = __vv; \
+        __ret = true; \
+        __members = SplitIdentifiers(#args); \
+        __i = 0; \
+        __f(args);    \
+        return __ret; \
+    } \
+    virtual Json::Value ToJson() const { \
+        __v = Json::Value(); \
+        __members = SplitIdentifiers(#args); \
+        __i = 0; \
+        __g(args); \
+        return __v; \
+    } \
+
+    mutable bool __ret;
+    mutable Json::Value __v;
+    mutable std::vector<std::string> __members;
+    mutable int __i;
+// =============================
 };
 
 // List template of JsonObject.
@@ -116,29 +154,48 @@ class JsonObjectList : public JsonObject {
     }
 };
 
+// Split identifier list to string array.
+// E.g., "a,b,c" -> {"a", "b", "c"}
+inline std::vector<std::string> SplitIdentifiers(const char *s) {
+    std::vector<std::string> ret;
+    std::string r = "";
+    for (const char *p = s; *p; ++p) {
+        if (*p == '(') {
+            r = "";
+        } else if (*p == ')' || *p == ',') {
+            ret.push_back(r);
+            r = "";
+        } else if (!isblank(*p)) {
+            r += *p;
+        }
+    }
+    ret.push_back(r);
+    return ret;
+}
+
 // Basic type (int, float, string) wrapping for Json IO
 template <>
-Json::Value ConvertToJson(int t) {
+inline Json::Value ConvertToJson(int t) {
     return Json::Value(t);
 }
 
 template <>
-Json::Value ConvertToJson(float t) {
+inline Json::Value ConvertToJson(float t) {
     return Json::Value(t);
 }
 
 template <>
-Json::Value ConvertToJson(const std::string &t) {
+inline Json::Value ConvertToJson(double t) {
     return Json::Value(t);
 }
 
 template <>
-Json::Value ConvertToJson(const JsonObject& t) {
-    return t.ToJson();
+inline Json::Value ConvertToJson(std::string t) {
+    return Json::Value(t);
 }
 
 template <>
-bool ConvertFromJson(const Json::Value &v, int *t) {
+inline bool ConvertFromJson(const Json::Value &v, int *t) {
     if (!v.isInt()) {
         return false;
     }
@@ -147,7 +204,7 @@ bool ConvertFromJson(const Json::Value &v, int *t) {
 }
 
 template <>
-bool ConvertFromJson(const Json::Value &v, float *t) {
+inline bool ConvertFromJson(const Json::Value &v, float *t) {
     if (!v.isNumeric()) {
         return false;
     }
@@ -156,7 +213,16 @@ bool ConvertFromJson(const Json::Value &v, float *t) {
 }
 
 template <>
-bool ConvertFromJson(const Json::Value &v, std::string *t) {
+inline bool ConvertFromJson(const Json::Value &v, double *t) {
+    if (!v.isNumeric()) {
+        return false;
+    }
+    *t = v.asDouble();
+    return true;
+}
+
+template <>
+inline bool ConvertFromJson(const Json::Value &v, std::string *t) {
     if (!v.isString()) {
         return false;
     }
@@ -164,10 +230,24 @@ bool ConvertFromJson(const Json::Value &v, std::string *t) {
     return true;
 }
 
-template <>
-bool ConvertFromJson(const Json::Value &v, JsonObject *t) {
-    return t->FromJson(v);
+template <typename T>
+inline Json::Value ConvertToJson(T t) {
+    auto p = dynamic_cast<JsonObject*>(&t);
+    if (p == nullptr) {
+        return Json::Value();
+    } else {
+        return p->ToJson();
+    }
+}
+
+template <typename T>
+inline bool ConvertFromJson(const Json::Value &v, T *t) {
+    auto p = dynamic_cast<JsonObject*>(t);
+    if (p == nullptr) {
+        return false;
+    } else {
+        return p->FromJson(v);
+    }
 }
 
 #endif
-

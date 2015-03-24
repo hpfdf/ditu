@@ -44,10 +44,11 @@ bool JsonObject::Load(const char *dir) {
     }
     
     std::fseek(f, 0, SEEK_END);
-    auto fsize = std::ftell(f);
+    size_t fsize = std::ftell(f);
     std::rewind(f);
     auto buffer = new char [fsize + 1];
-    if (std::fread(buffer, 1, fsize, f) != fsize) {
+    auto nread = std::fread(buffer, 1, fsize, f);
+    if (nread == 0) {
         delete [] buffer;
         return false;
     }

@@ -9,6 +9,7 @@ debug/
 Release/
 Debug/
 build/
+build*/
 Makefile
 Makefile.*
 *.user
@@ -22,5 +23,6 @@ Makefile.*
 *.obj
 *.exe
 *.exp
+*.gch
 *.bak
 *.bak/

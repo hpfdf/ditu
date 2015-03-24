@@ -19,7 +19,7 @@ class Trainer {
     void RemoveLabelsIn(const Polygon &p);
 
     // Add a series of label by a route. Assume the speed is consistent.
-    void BatchAddLabel(const PointList &route, const JsonObjectList<Observe> &ob,
+    void BatchAddLabel(const JsonObjectList<Point> &route, const JsonObjectList<Observe> &ob,
                        int begin_time, int end_time);
 
   private:

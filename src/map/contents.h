@@ -9,8 +9,7 @@ class Point : public JsonObject {
     float x;
     float y;
 
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+    JSON_MEMBERS(x, y)
 };
 
 // Identify a position with height in the map.
@@ -20,9 +19,9 @@ class Point3D : public JsonObject {
     float y;
     float z;
 
+    JSON_MEMBERS(x, y, z)
+
     Point GetPoint() const;
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
 };
 
 // Identify a polygon in the map, where type can be
@@ -36,10 +35,9 @@ class Point3D : public JsonObject {
 class Polygon : public JsonObject {
   public:
     std::string type;
-    JsonObjectList<Point> points;
+    JsonObjectList<Point> shape;
 
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+    JSON_MEMBERS(type, shape)
 };
 
 // 2D Geometry algorithm utilities.
@@ -63,9 +61,8 @@ class Comment : public JsonObject {
   public:
     std::string text;
     Polygon region;
-    
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+
+    JSON_MEMBERS(text, region)
 };
 
 // Identify a observation from IMU or FingerPrint sensors.
@@ -79,8 +76,7 @@ class Observe : public JsonObject {
     std::string sub;
     float data;
 
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+    JSON_MEMBERS(time, type, sub, data)
 };
 
 // Identify a data label in the map for locating.
@@ -93,8 +89,7 @@ class Label : public JsonObject {
     std::string sub;
     float data;
 
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+    JSON_MEMBERS(pos, type, sub, data)
 };
 
 // Identify a composite floor map with all geometrics, labels and comments.
@@ -104,8 +99,7 @@ class Floor : public JsonObject {
     JsonObjectList<Comment> comments;
     JsonObjectList<Label> labels;
 
-    virtual bool FromJson(const Json::Value &v);
-    virtual Json::Value ToJson() const;
+    JSON_MEMBERS(objects, comments, labels)
 };
 
 #endif
