@@ -12,3 +12,11 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::Message(QString s)
+{
+    Ui_MainWindow* u = dynamic_cast<Ui_MainWindow*>(ui);
+    if (u == nullptr)
+        return;
+    u->textEdit->setText(s);
+}

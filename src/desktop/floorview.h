@@ -22,7 +22,11 @@ public:
         return &camera;
     }
     void UpdateView() {
-        scene->advance();
+        scene->update();
+    }
+
+    MapCursor *GetCursor() {
+        return cursor;
     }
 
 protected:

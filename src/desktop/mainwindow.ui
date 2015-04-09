@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
-    <height>360</height>
+    <width>767</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>809</width>
+     <width>767</width>
      <height>21</height>
     </rect>
    </property>
@@ -94,6 +94,8 @@
    <addaction name="action_5"/>
    <addaction name="separator"/>
    <addaction name="action"/>
+   <addaction name="action_center"/>
+   <addaction name="action_6"/>
    <addaction name="separator"/>
    <addaction name="action_start"/>
   </widget>
@@ -230,6 +232,28 @@
    </property>
    <property name="shortcut">
     <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="action_center">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>锁定中心</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
+   </property>
+  </action>
+  <action name="action_6">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>锁定前方</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+O</string>
    </property>
   </action>
  </widget>

@@ -17,6 +17,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void Message(QString s);
+
+private slots:
+
 private:
     Ui::MainWindow *ui;
 };

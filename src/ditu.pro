@@ -39,6 +39,8 @@ HEADERS += \
     utils/libJson/config.h \
     utils/libJson/autolink.h \
     utils/jsonobject.h \
+    utils/zmq/zmq.hpp \
+    utils/forward.h \
     desktop/mainwindow.h \
     desktop/floorview.h \
     desktop/mapcursor.h \
@@ -47,7 +49,7 @@ HEADERS += \
     map/contents.h
     map/trainer.h
 
-QMAKE_CXXFLAGS += --std=c++0x -O3
+QMAKE_CXXFLAGS += --std=c++0x -O2
 
 FORMS += \
     desktop/mainwindow.ui

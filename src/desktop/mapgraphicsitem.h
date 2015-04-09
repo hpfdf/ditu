@@ -40,19 +40,6 @@ public:
     MapPolygon(MapCamera *camera): MapGraphicsItem(camera) {}
     ~MapPolygon() {}
 
-protected:
-    QPen pen;
-    QBrush brush;
-
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-        painter->setPen(pen);
-        painter->setBrush(brush);
-        auto buff = shape;
-        for (auto &p : buff) {
-            p = PaintPos(p);
-        }
-        painter->drawPolygon(buff.data(), shape.size());
-    }
     virtual QRectF boundingRect() const {
         float l, r, u, d;
         l = u = std::numeric_limits<float>::max();
@@ -65,6 +52,20 @@ protected:
             d = std::max(d, static_cast<float>(q.y()));
         }
         return QRectF(l-1, u-1, r+2-l, d+2-u);
+    }
+
+protected:
+    QPen pen;
+    QBrush brush;
+
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
+        painter->setPen(pen);
+        painter->setBrush(brush);
+        auto buff = shape;
+        for (auto &p : buff) {
+            p = PaintPos(p);
+        }
+        painter->drawPolygon(buff.data(), shape.size());
     }
 };
 
