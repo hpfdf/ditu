@@ -7,24 +7,38 @@
 
 #include "libJson/json.h"
 
-// The abstract base class for all serializable data structure.
+// The abstract base class for all Json-serializable data structure.
 //
 // Subclasses are expected to contain new members or methods, but
 // they must implement FromJson() and ToJson(). Once the two virtual
 // methods are correctly overloaded, the public methods (saves and loads)
 // should be ready.
+//
+// Simplification: Use JSON_MEMBERS(member1, member2,...) for a quick
+// definition of FromJson and ToJson.
+// E.g.,
+//                                      |
+// class Record : public JsonObject {   | {
+//   public:                            |     "x": 2,
+//     int x;                           |     "f": [
+//     JsonObjectList<float> f;         |         0.1,
+//     std::string s;                   |         0.2
+//                                      |     ],
+//     JSON_MEMBERS(x, f, s)            |     "s": "foo"
+// };                                   | }
+//                                      |
 class JsonObject {
   public:
-    // Deserialize
+    // Deserialize from a Json string
     bool FromString(const char *s);
 
-    // Serialize
+    // Serialize to a Json string
     std::string ToString();
 
-    // Save to file
+    // Save to a Json file
     bool Save(const char *dir);
 
-    // Load from file
+    // Load from a Json file
     bool Load(const char *dir);
 
     // Convert a JsonObject or a Basic type variable to Json value.
@@ -57,6 +71,7 @@ class JsonObject {
         __g(__s...);
     }
 #define JSON_MEMBERS(args...) \
+  protected: \
     virtual bool FromJson(const Json::Value &__vv) { \
         __v = __vv; \
         __ret = true; \
@@ -165,7 +180,7 @@ inline std::vector<std::string> SplitIdentifiers(const char *s) {
         } else if (*p == ')' || *p == ',') {
             ret.push_back(r);
             r = "";
-        } else if (!isblank(*p)) {
+        } else if (!std::isblank(*p)) {
             r += *p;
         }
     }

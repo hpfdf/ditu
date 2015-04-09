@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "floorview.h"
+
 namespace Ui {
 class MainWindow;
 }

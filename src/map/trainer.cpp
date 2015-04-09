@@ -25,9 +25,10 @@ void Trainer::AddComment(const Comment &comment) {
 void Trainer::RemoveCommentsIn(const Polygon &p) {
     JsonObjectList<Comment> ret;
     for (auto &k : floor_->comments) {
-        if (!GeometryUtils::Hit(p, k.region)) {
+        /*
+        if (!GeometryUtils::Hit(p, k.)) {
             ret.append(k);
-        }
+        }*/
     }
     floor_->comments = ret;
 }

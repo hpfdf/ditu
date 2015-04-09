@@ -12,6 +12,15 @@ class Point : public JsonObject {
     JSON_MEMBERS(x, y)
 };
 
+// Identify a segment.
+class Segment : public JsonObject {
+  public:
+    Point p1;
+    Point p2;
+
+    JSON_MEMBERS(p1, p2)
+};
+
 // Identify a position with height in the map.
 class Point3D : public JsonObject {
   public:
@@ -25,13 +34,14 @@ class Point3D : public JsonObject {
 };
 
 // Identify a polygon in the map, where type can be
-// "wall"   : Cannot pass in any height.
-// "up"     : Stairs going up.
-// "down"   : Stairs going down.
-// "range"  : Target can only be in range. There is only one range in a floor.
-// "barrier": Target cannot pass, but the space is connected in some height.
-// "comment": Searchable comment region.
-// "label"  : Map data region.
+// "wall"       : Cannot pass in any height.
+// "up"         : Stairs going up.
+// "down"       : Stairs going down.
+// "range"      : Target can only be in range. There is only one range in a floor.
+// "barrier"    : Target cannot pass, but the space is connected in some height.
+// "region"     : Searchable comment region.
+// "decoration" : Unsearchable comment region.
+// "label"      : Map positioning data region.
 class Polygon : public JsonObject {
   public:
     std::string type;
@@ -60,9 +70,9 @@ class GeometryUtils {
 class Comment : public JsonObject {
   public:
     std::string text;
-    Polygon region;
+    Polygon polygon;
 
-    JSON_MEMBERS(text, region)
+    JSON_MEMBERS(text, polygon)
 };
 
 // Identify a observation from IMU or FingerPrint sensors.

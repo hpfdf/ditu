@@ -1,8 +1,8 @@
 #include "mapgraphicsitem.h"
 
-MapGraphicsItem::MapGraphicsItem()
+MapGraphicsItem::MapGraphicsItem(MapCamera *camera)
 {
-
+    this->camera = camera;
 }
 
 MapGraphicsItem::~MapGraphicsItem()

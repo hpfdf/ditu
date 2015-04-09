@@ -1,11 +1,6 @@
-#include <QApplication>
-#include <QWidget>
 #include <QMainWindow>
-
-class MainWindow : public QMainWindow {
-    Q_OBJECT
-
-};
+#include <QApplication>
+#include "mainwindow.h"
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);

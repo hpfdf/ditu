@@ -5,8 +5,7 @@
 #
 # Desktop map interface.
 
-QT += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui widgets
 
 TARGET = ditu
 TEMPLATE = app
@@ -22,7 +21,11 @@ SOURCES += \
     utils/jsonobject.cpp \
     map/trainer.cpp \
     map/contents.cpp \
-    desktop/main.cpp
+    desktop/main.cpp \
+    desktop/mainwindow.cpp \
+    desktop/floorview.cpp \
+    utils/mapcamera.cpp \
+    desktop/mapgraphicsitem.cpp
 
 HEADERS += \
     utils/libJson/writer.h \
@@ -35,9 +38,17 @@ HEADERS += \
     utils/libJson/features.h \
     utils/libJson/config.h \
     utils/libJson/autolink.h \
-    utils/jsonobject.h
+    utils/jsonobject.h \
+    desktop/mainwindow.h \
+    desktop/floorview.h \
+    desktop/mapcursor.h \
+    utils/mapcamera.h \
+    desktop/mapgraphicsitem.h
     map/contents.h
     map/trainer.h
 
-QMAKE_CXXFLAGS += --std=c++0x
+QMAKE_CXXFLAGS += --std=c++0x -O3
+
+FORMS += \
+    desktop/mainwindow.ui
 
