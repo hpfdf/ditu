@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdio>
 
+#include "bug.h"
 #include "libJson/json.h"
 
 bool JsonObject::FromJson(const Json::Value &) {

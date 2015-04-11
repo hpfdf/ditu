@@ -1,7 +1,6 @@
 #ifndef MAPCAMERA_H
 #define MAPCAMERA_H
 
-
 class MapCamera
 {
 public:

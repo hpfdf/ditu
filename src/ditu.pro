@@ -45,7 +45,9 @@ HEADERS += \
     desktop/floorview.h \
     desktop/mapcursor.h \
     utils/mapcamera.h \
-    desktop/mapgraphicsitem.h
+    desktop/mapgraphicsitem.h \
+    desktop/mapbackground.h \
+    utils/bug.h
     map/contents.h
     map/trainer.h
 

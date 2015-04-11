@@ -27,10 +27,13 @@ void MapCamera::move(float dx, float dy)
 void MapCamera::rotate(float a, float sx, float sy)
 {
     angle += a;
-    std::complex<float> p(x - sx, y - sy);
+    float dx, dy;
+    RealToScreen(x, y, &dx, &dy);
+    std::complex<float> p(dx - sx, dy - sy);
     p *= std::polar(1.f, a);
-    x = p.real() + sx;
-    y = p.imag() + sy;
+    dx = p.real() + sx;
+    dy = p.imag() + sy;
+    ScreenToReal(dx, dy, &x, &y);
 }
 
 MapCamera::MapCamera() : x(0), y(0), scale(1), angle(0)
